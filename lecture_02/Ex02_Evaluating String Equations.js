@@ -12,7 +12,7 @@ function equation(equationstring){
     }
 }
 
-console.log(`equation("1+1")  ${equation("1+1")}`);
-console.log(`equation("7*4-2")  ${equation("7*4-2")}`);
-console.log(`equation("1+1+1+1+1")  ${equation("1+1+1+1+1")}`);
-console.log(`equation("100/5")  ${equation("100/5")}`);
+console.log(`equation("1+1")  ${equation("1+1")}`); //2
+console.log(`equation("7*4-2")  ${equation("7*4-2")}`); //26
+console.log(`equation("1+1+1+1+1")  ${equation("1+1+1+1+1")}`); //5
+console.log(`equation("100/5")  ${equation("100/5")}`); //20

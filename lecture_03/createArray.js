@@ -7,4 +7,5 @@ console.log(arr1.length);   //0
 console.log(arr2.length);   //7
 console.log(arr3.length);   //3
 console.log(arr3[0]);       //A
+console.log(arr3[1]);       //false
 console.log(arr3[2]);       //5
