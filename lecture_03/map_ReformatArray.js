@@ -5,7 +5,9 @@ const KvArray = [
     {key: 3, value: 30},
 ];
 
-const reformattedArray = KvArray.map(({key, value}) => ({ [key]: value}));
+const reformattedArray = KvArray.map(
+    ({key, value}) => ({ [key]: value})
+);
     // การใช้เครื่องหมายก้ามปู [] ล้อมรอบตัวแปร key หมายถึงการนำ ค่าที่อยู่ในตัวแปรนั้น มาตั้งเป็นชื่อ Property ของ Object
 
 console.log(reformattedArray);

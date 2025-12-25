@@ -9,6 +9,11 @@ const book = {
     checkOut: function(){
         this.isAvailable = false;
     }
-}
-
+};
+console.log(`title: ${book.title}` );
+console.log(`available: ${book.isAvailable}` );
+book.checkIn();
+console.log(`available: ${book.isAvailable}` );
+book.checkOut();
+console.log(`available: ${book.isAvailable}` );
 console.log(typeof book);
