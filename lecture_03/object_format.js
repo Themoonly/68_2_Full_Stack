@@ -16,11 +16,11 @@ const backtoObject = JSON.parse(bookjson);
 console.log(backtoObject.title);
     //# 1984
 
-const booksjson = `[
+const booksjson = [
     {"title": "Book A", "author": "Witer x"},
     {"title": "Book B", "author": "Witer y"},
     {"title": "Book C", "author": "Witer z"}
-]`;
+];
 
 const booksArray = JSON.parse(booksjson);
 booksArray.forEach((book,index) => {
