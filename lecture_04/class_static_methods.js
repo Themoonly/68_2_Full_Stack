@@ -10,8 +10,14 @@ class dog{
         console.log('woof!');
     }
 }
+
+// calling the instance method  
+//  ข้อดี   
+//  ข้อเสีย
 const myDog = new dog('Buster');
 myDog.introduce();
 
-// calling the static method
+// calling the static method 
+//  ข้อดี ใช้เพื่อไม่อยากให้มีการเรียกแบบเปลี่ยนค่า 
+//  ข้อเสีย เรียกผ่าน obj ไม่ได้
 dog.bark();

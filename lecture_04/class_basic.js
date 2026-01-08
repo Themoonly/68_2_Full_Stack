@@ -16,4 +16,6 @@ class song{
 }
 const mysong = new song('Bohemian Rhapsody','Queen');
 console.log(mysong.title);
+console.log(mysong);
+console.log(typeof mysong);
 mysong.play();
