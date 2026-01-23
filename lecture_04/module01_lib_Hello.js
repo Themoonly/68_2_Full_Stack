@@ -16,4 +16,5 @@ const add = (a,b) => a+b;
 
 const status = true;
 
+// ตัวไหนที่อยากให้สามารถเรียกใช้ได้ นำมาใส่ไว้ใต้ล่าง
 module.exports = {person, sayHello, cube, add, status}

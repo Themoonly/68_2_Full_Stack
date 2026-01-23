@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>my first web page</h2>
+
+    <p id="demo"></p>
+
+    <script>
+        try{
+            const lalala = 5; //error
+            lalala; //error
+        }
+        catch(err){
+            alert(err.name); //referenceError
+            alert(err.message); // lalala is not defined
+            alert(err.stack); 
+            //referenceError: lalala is not defined at (..cal stack)
+
+            alert(err);
+        }
+    </script>
+</body>
+</html>
+

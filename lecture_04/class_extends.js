@@ -23,8 +23,10 @@ const mysong = new song({
     publishData: 1975,
 });
 
+console.log(mysong.name)
 console.log(mysong);
 
+// Bohemain Rhapsody
 // song { publishData: 1975, name: 'Bohemain Rhapsody', artist: 'Queen' }
 
-// สรุป: การใช้ Class และ Inheritance ช่วยให้โค้ดของคุณ สะอาด ลดการเขียนซ้ำ (DRY - Don't Repeat Yourself) และจัดการได้ง่ายขึ้นเมื่อโปรแกรมใหญ่ขึ้นครับ
+// สรุป: การใช้ Class และ Inheritance ช่วยให้โค้ดของคุณ สะอาด ลดการเขียนซ้ำ (DRY - Don't Repeat Yourself) และจัดการได้ง่ายขึ้นเมื่อโปรแกรมใหญ่ขึ้น
