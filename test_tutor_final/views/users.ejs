@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <style>
+        :root {
+            --bg: #eef4f1;
+            --surface: #fcfefd;
+            --surface-strong: #ffffff;
+            --text: #21312a;
+            --muted: #5a6d65;
+            --border: #c7d9d0;
+            --accent: #2f7d6b;
+            --accent-dark: #1f5b4d;
+            --success-bg: #e7f7ef;
+            --success-text: #196042;
+            --error-bg: #fdeceb;
+            --error-text: #98342c;
+            --shadow: 0 18px 40px rgba(32, 74, 61, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top right, rgba(47, 125, 107, 0.15), transparent 30%),
+                linear-gradient(180deg, #f6fbf8 0%, var(--bg) 100%);
+            min-height: 100vh;
+        }
+
+        header,
+        main {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 40px 0 20px;
+        }
+
+        h1,
+        h2 {
+            margin: 0 0 16px;
+        }
+
+        nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--accent-dark);
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        main {
+            display: grid;
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        section {
+            background: var(--surface);
+            border: 1px solid rgba(47, 125, 107, 0.12);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .notice {
+            margin: 0 auto 16px;
+            width: min(1100px, calc(100% - 32px));
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid transparent;
+        }
+
+        .notice.success {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border-color: #badfca;
+        }
+
+        .notice.error {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border-color: #f1c7c1;
+        }
+
+        form {
+            display: grid;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            font: inherit;
+        }
+
+        button {
+            width: fit-content;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .action-form {
+            display: grid;
+            gap: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .delete-button {
+            background: #b64533;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #dde9e3;
+        }
+
+        th {
+            background: #ddeee8;
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        @media (max-width: 700px) {
+            section {
+                padding: 18px;
+            }
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                padding: 12px 0;
+                border-bottom: 1px solid #dde9e3;
+            }
+
+            td {
+                border: 0;
+                padding: 6px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Users</h1>
+        <nav>
+            <a href="/books">Books</a>
+            <a href="/users">Users</a>
+            <a href="/borrowings">Borrowings</a>
+        </nav>
+    </header>
+
+    <% if (message) { %>
+        <section class="notice success">
+            <p><strong>Success:</strong> <%= message %></p>
+        </section>
+    <% } %>
+
+    <% if (error) { %>
+        <section class="notice error">
+            <p><strong>Error:</strong> <%= error %></p>
+        </section>
+    <% } %>
+
+    <main>
+        <section>
+            <h2>Add User</h2>
+            <form action="/users" method="post">
+                <div>
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" required>
+                </div>
+                <button type="submit">Add User</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>User Table</h2>
+            <% if (users.length === 0) { %>
+                <p>No users found.</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach((user) => { %>
+                            <tr>
+                                <td><%= user.id %></td>
+                                <td>
+                                    <input form="user-edit-<%= user.id %>" name="name" type="text" value="<%= user.name %>" required>
+                                </td>
+                                <td>
+                                    <input form="user-edit-<%= user.id %>" name="email" type="email" value="<%= user.email %>" required>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <form id="user-edit-<%= user.id %>" action="/users/<%= user.id %>/edit" method="post"></form>
+                                        <button form="user-edit-<%= user.id %>" type="submit">Save</button>
+                                        <form action="/users/<%= user.id %>/delete" method="post" onsubmit="return confirm('Delete this user?');">
+                                            <button class="delete-button" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>

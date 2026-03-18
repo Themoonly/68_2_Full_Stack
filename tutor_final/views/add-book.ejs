@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book</title>
+</head>
+<body>
+    <table>
+        <form action="/books" method="post">
+            <tr>
+                <td><label for="title">Title:</label></td>
+                <td><input type="text" id="title" name="title" required></td>
+            </tr>
+            <tr>
+                <td><label for="author">Author:</label></td>
+                <td><input type="text" id="author" name="author" required></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการเพิ่มหนังสือรายนี้?')">Add Book</button>
+                </td>
+            </tr>
+        </form>
+    </table>
+</body>
+</html>

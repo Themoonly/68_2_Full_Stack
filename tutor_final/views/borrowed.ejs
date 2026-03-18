@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>borrowed</title>
+</head>
+<body>
+     <a href="/books">Books</a>
+    <a href="/users">Users</a>
+    <a href="/borrow">Borrow</a>
+    <br>
+    <a href="/borrow/add">Add Borrow</a>
+    <table>
+        <tr>
+            <th>name</th>
+            <th>email</th>
+            <th>title</th>
+            <th>author</th>
+            <th>status</th>
+        </tr>
+        <% borrowed.forEach(borrowed => { %>
+            <tr>
+                <td><%= borrowed.User.name %></td>
+                <td><%= borrowed.User.email %></td>
+
+                <td><%= borrowed.Book.title %></td>
+                <td><%= borrowed.Book.author %></td>
+                <td><%= borrowed.returnDate ? "Returned" : "Borrowed" %></td>
+                <td>
+                    <% if (!borrowed.returnDate) { %>
+                         <a href="/borrow/<%= borrowed.id %>/return">Return</a>
+                    <% } %>
+                    <a href="/borrow/<%= borrowed.id %>/delete">Delete</a>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+</body>
+</html>

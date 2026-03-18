@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <style>
+        :root {
+            --bg: #f5efe6;
+            --surface: #fffdf8;
+            --surface-strong: #ffffff;
+            --text: #1f2933;
+            --muted: #52606d;
+            --border: #d9c7ad;
+            --accent: #8b5e34;
+            --accent-dark: #6f431e;
+            --success-bg: #e8f7ee;
+            --success-text: #1f6b43;
+            --error-bg: #fbe9e7;
+            --error-text: #a33a2b;
+            --shadow: 0 18px 40px rgba(79, 58, 37, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(139, 94, 52, 0.14), transparent 34%),
+                linear-gradient(180deg, #f7f1e7 0%, var(--bg) 100%);
+            min-height: 100vh;
+        }
+
+        header,
+        main {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 40px 0 20px;
+        }
+
+        h1,
+        h2 {
+            margin: 0 0 16px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--accent-dark);
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        main {
+            display: grid;
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        section {
+            background: var(--surface);
+            border: 1px solid rgba(139, 94, 52, 0.12);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .notice {
+            margin: 0 auto 16px;
+            width: min(1100px, calc(100% - 32px));
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid transparent;
+        }
+
+        .notice.success {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border-color: #bee3cc;
+        }
+
+        .notice.error {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border-color: #efc0b8;
+        }
+
+        form {
+            display: grid;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            font: inherit;
+        }
+
+        button {
+            width: fit-content;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .action-form {
+            display: grid;
+            gap: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .delete-button {
+            background: #b64533;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 14px;
+        }
+
+        th,
+        td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eadfce;
+        }
+
+        th {
+            background: #f0e1cf;
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                font-size: 15px;
+            }
+
+            section {
+                padding: 18px;
+            }
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                padding: 12px 0;
+                border-bottom: 1px solid #eadfce;
+            }
+
+            td {
+                border: 0;
+                padding: 6px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Books</h1>
+        <nav>
+            <a href="/books">Books</a>
+            <a href="/users">Users</a>
+            <a href="/borrowings">Borrowings</a>
+        </nav>
+    </header>
+
+    <% if (message) { %>
+        <!-- ถ้ามี message ให้แสดง -->
+        <section class="notice success">
+            <p><strong>Success:</strong> <%= message %></p>
+        </section>
+    <% } %>
+
+    <% if (error) { %>
+        <!-- ถ้ามี error ให้แสดง -->
+        <section class="notice error">
+            <p><strong>Error:</strong> <%= error %></p>
+        </section>
+    <% } %>
+
+    <main>
+        <section>
+            <h2>Add Book</h2>
+            <form action="/books" method="post">
+                <!-- /books ส่งไป frontend -->
+                <div>
+                    <label for="title">Title</label>
+                    <input id="title" name="title" type="text" required>
+                </div>
+                <div>
+                    <label for="author">Author</label>
+                    <input id="author" name="author" type="text" required>
+                </div>
+                <button type="submit">Add Book</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Book Table</h2>
+            <% if (books.length === 0) { %>
+                <!-- ถ้าไม่มีหนังสือใด ๆ ให้แสดงข้อความนี้ -->
+                <p>No books found.</p>
+            <% } else { %>
+                <!-- ถ้ามีหนังสืออยู่ในระบบ ให้แสดงตารางหนังสือ -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% books.forEach((book) => { %>
+                            <!-- แสดงข้อมูลหนังสือแต่ละเล่มโดยการ loop -->
+                            <tr>
+                                <td><%= book.id %></td>
+                                <!-- แสดงช่องกรอกข้อมูลสำหรับแก้ไขชื่อหนังสือ -->
+                                <td>
+                                    <input form="book-edit-<%= book.id %>" name="title" type="text" value="<%= book.title %>" required>
+                                    <!-- form-book-edit-<%= book.id %>  ==== form-book-edit-ไอดีของหนังสือที่ได้จาก loop -->
+                                </td>
+                                <td>
+                                    <input form="book-edit-<%= book.id %>" name="author" type="text" value="<%= book.author %>" required>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <form id="book-edit-<%= book.id %>" action="/books/<%= book.id %>/edit" method="post"></form>
+                                        <button form="book-edit-<%= book.id %>" type="submit">Save</button>
+                                        <form action="/books/<%= book.id %>/delete" method="post" onsubmit="return confirm('Delete this book?');">
+                                            <button class="delete-button" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>

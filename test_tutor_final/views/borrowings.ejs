@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrowings</title>
+    <style>
+        :root {
+            --bg: #f1f0fb;
+            --surface: #fcfbff;
+            --surface-strong: #ffffff;
+            --text: #262342;
+            --muted: #625f7d;
+            --border: #d7d3f0;
+            --accent: #4b5fc7;
+            --accent-dark: #34439a;
+            --success-bg: #e8f1ff;
+            --success-text: #24438c;
+            --error-bg: #fdebec;
+            --error-text: #9f3038;
+            --shadow: 0 18px 40px rgba(74, 74, 120, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top center, rgba(75, 95, 199, 0.16), transparent 28%),
+                linear-gradient(180deg, #f7f7fd 0%, var(--bg) 100%);
+            min-height: 100vh;
+        }
+
+        header,
+        main {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 40px 0 20px;
+        }
+
+        h1,
+        h2 {
+            margin: 0 0 16px;
+        }
+
+        nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--accent-dark);
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.82);
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        section {
+            background: var(--surface);
+            border: 1px solid rgba(75, 95, 199, 0.12);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .table-section {
+            grid-column: 1 / -1;
+        }
+
+        .notice {
+            margin: 0 auto 16px;
+            width: min(1180px, calc(100% - 32px));
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid transparent;
+        }
+
+        .notice.success {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border-color: #c9dafd;
+        }
+
+        .notice.error {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border-color: #f0c3c6;
+        }
+
+        form {
+            display: grid;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            font: inherit;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            font: inherit;
+        }
+
+        button {
+            width: fit-content;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .action-form {
+            display: grid;
+            gap: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .delete-button {
+            background: #b64533;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e4e1f5;
+            vertical-align: top;
+        }
+
+        th {
+            background: #e7e4f7;
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .status-open {
+            color: #a05a00;
+            font-weight: 700;
+        }
+
+        .status-closed {
+            color: #2e6a49;
+            font-weight: 700;
+        }
+
+        @media (max-width: 700px) {
+            section {
+                padding: 18px;
+            }
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                padding: 12px 0;
+                border-bottom: 1px solid #e4e1f5;
+            }
+
+            td {
+                border: 0;
+                padding: 6px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Borrowings</h1>
+        <nav>
+            <a href="/books">Books</a>
+            <a href="/users">Users</a>
+            <a href="/borrowings">Borrowings</a>
+        </nav>
+    </header>
+
+    <% if (message) { %>
+        <section class="notice success">
+            <p><strong>Success:</strong> <%= message %></p>
+        </section>
+    <% } %>
+
+    <% if (error) { %>
+        <section class="notice error">
+            <p><strong>Error:</strong> <%= error %></p>
+        </section>
+    <% } %>
+
+    <main>
+        <section>
+            <h2>Borrow Book</h2>
+            <form action="/borrow" method="post">
+                <div>
+                    <label for="borrowUserId">User</label>
+                    <select id="borrowUserId" name="userId" required>
+                        <option value="">Select a user</option>
+                        <% users.forEach((user) => { %>
+                            <option value="<%= user.id %>"><%= user.name %> (<%= user.email %>)</option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div>
+                    <label for="borrowBookId">Book</label>
+                    <select id="borrowBookId" name="bookId" required>
+                        <option value="">Select a book</option>
+                        <% books.forEach((book) => { %>
+                            <option value="<%= book.id %>"><%= book.title %> by <%= book.author %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <button type="submit">Borrow</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Return Book</h2>
+            <form action="/return" method="post">
+                <div>
+                    <label for="returnUserId">User</label>
+                    <select id="returnUserId" name="userId" required>
+                        <option value="">Select a user</option>
+                        <% users.forEach((user) => { %>
+                            <option value="<%= user.id %>"><%= user.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div>
+                    <label for="returnBookId">Book</label>
+                    <select id="returnBookId" name="bookId" required>
+                        <option value="">Select a book</option>
+                        <% books.forEach((book) => { %>
+                            <option value="<%= book.id %>"><%= book.title %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <button type="submit">Return</button>
+            </form>
+        </section>
+
+        <section class="table-section">
+            <h2>Borrowing Table</h2>
+            <% if (borrowings.length === 0) { %>
+                <p>No borrowing records found.</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Book</th>
+                            <th>Borrow Date</th>
+                            <th>Return Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% borrowings.forEach((borrowing) => { %>
+                            <tr>
+                                <td><%= borrowing.user ? borrowing.user.name : 'Unknown User' %></td>
+                                <td><%= borrowing.book ? borrowing.book.title : 'Unknown Book' %></td>
+                                <td><%= new Date(borrowing.borrowDate).toLocaleString() %></td>
+                                <td>
+                                    <% if (borrowing.returnDate) { %>
+                                        <%= new Date(borrowing.returnDate).toLocaleString() %>
+                                    <% } else { %>
+                                        -
+                                    <% } %>
+                                    <% if (!borrowing.returnDate) { %>
+                                        <div class="status-open">Not returned</div>
+                                    <% } else { %>
+                                        <div class="status-closed">Returned</div>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <% if (!borrowing.returnDate) { %>
+                                            <form id="borrowing-edit-<%= borrowing.id %>" action="/borrowings/<%= borrowing.id %>/return" method="post"></form>
+                                            <button form="borrowing-edit-<%= borrowing.id %>" type="submit">Mark as Returned</button>
+                                        <% } %>
+                                        <form action="/borrowings/<%= borrowing.id %>/delete" method="post" onsubmit="return confirm('Delete this borrowing record?');">
+                                            <button class="delete-button" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>

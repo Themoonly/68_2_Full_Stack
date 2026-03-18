@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+
+class MyResult extends StatelessWidget {
+  final String fname, lname, dept, subject, midterm, finalScore, classwork;
+  const MyResult({super.key, required this.fname, required this.lname, required this.dept, required this.subject, required this.midterm, required this.finalScore, required this.classwork});
+
+  @override
+  Widget build(BuildContext context) {
+    double m = double.tryParse(midterm) ?? 0;
+    double f = double.tryParse(finalScore) ?? 0;
+    double c = double.tryParse(classwork) ?? 0;
+    double total = m + f + c;
+    
+    // ตัดเกรด
+    String grade = total >= 80 ? 'A' : total >= 70 ? 'B' : total >= 60 ? 'C' : total >= 50 ? 'D' : 'F';
+    Color gradeColor = grade == 'F' ? Colors.red.shade700 : Colors.teal.shade700;
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Result Summary'), backgroundColor: Colors.teal.shade700, foregroundColor: Colors.white),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            // ส่วนหัว: ชื่อและเกรด
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [gradeColor, gradeColor.withOpacity(0.8)]),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                children: [
+                  Text('$fname $lname', style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                  Text(dept, style: const TextStyle(color: Colors.white70)),
+                  const SizedBox(height: 16),
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: Text(grade, style: TextStyle(fontSize: 48, fontWeight: FontWeight.black, color: gradeColor)),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text('FINAL GRADE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 12)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            // รายละเอียดวิชาและคะแนน
+            _buildInfoTile(Icons.book, "Subject", subject),
+            _buildInfoTile(Icons.analytics, "Total Score", "${total.toStringAsFixed(1)} / 100"),
+            const Divider(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildScoreStat("Mid", midterm),
+                _buildScoreStat("Final", finalScore),
+                _buildScoreStat("Class", classwork),
+              ],
+            ),
+            const Spacer(),
+            OutlinedButton(
+              onPressed: () => Navigator.pop(context),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 56),
+                side: BorderSide(color: gradeColor),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              ),
+              child: Text('BACK TO FORM', style: TextStyle(color: gradeColor, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoTile(IconData icon, String label, String value) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.teal),
+      title: Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+      subtitle: Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _buildScoreStat(String label, String value) {
+    return Column(
+      children: [
+        Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+      ],
+    );
+  }
+}

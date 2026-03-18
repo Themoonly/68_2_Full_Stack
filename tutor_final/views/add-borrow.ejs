@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>borrow</title>
+</head>
+<body>
+    <table>
+        <form action="/borrow" method="post">
+           <select name="user_id" id="">
+            <% User_data.forEach(user => { %> 
+                <option value="<%= user.id %>">
+                    <%= user.name %>
+                </option>  
+
+            <% }) %>
+           </select>
+           <select name="book_id" id="">
+            <% Book_data.forEach(book => { %> 
+                <option value="<%= book.id %>">
+                    <%= book.title %>
+                </option>  
+
+            <% }) %>
+           </select>
+                <td colspan="2">
+                    <button type="submit" onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการเพิ่มหนังสือรายนี้?')">Add Book</button>
+                </td>
+            </tr>
+        </form>
+    </table>
+</body>
+</html>

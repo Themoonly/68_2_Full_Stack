@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Frontend</title>
+</head>
+<body>
+    <header>
+        <h1>Library Dashboard</h1>
+        <p>Frontend server with EJS templates.</p>
+    </header>
+
+    <% if (message) { %>
+        <section>
+            <p><strong>Success:</strong> <%= message %></p>
+        </section>
+    <% } %>
+
+    <% if (error) { %>
+        <section>
+            <p><strong>Error:</strong> <%= error %></p>
+        </section>
+    <% } %>
+
+    <main>
+        <section>
+            <h2>Add Book</h2>
+            <form action="/books" method="post">
+                <div>
+                    <label for="title">Title</label>
+                    <input id="title" name="title" type="text" required>
+                </div>
+                <div>
+                    <label for="author">Author</label>
+                    <input id="author" name="author" type="text" required>
+                </div>
+                <button type="submit">Add Book</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Add User</h2>
+            <form action="/users" method="post">
+                <div>
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" required>
+                </div>
+                <button type="submit">Add User</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Borrow Book</h2>
+            <form action="/borrow" method="post">
+                <div>
+                    <label for="borrowUserId">User</label>
+                    <select id="borrowUserId" name="userId" required>
+                        <option value="">Select a user</option>
+                        <% users.forEach((user) => { %>
+                            <option value="<%= user.id %>"><%= user.name %> (<%= user.email %>)</option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div>
+                    <label for="borrowBookId">Book</label>
+                    <select id="borrowBookId" name="bookId" required>
+                        <option value="">Select a book</option>
+                        <% books.forEach((book) => { %>
+                            <option value="<%= book.id %>"><%= book.title %> by <%= book.author %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <button type="submit">Borrow</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Return Book</h2>
+            <form action="/return" method="post">
+                <div>
+                    <label for="returnUserId">User</label>
+                    <select id="returnUserId" name="userId" required>
+                        <option value="">Select a user</option>
+                        <% users.forEach((user) => { %>
+                            <option value="<%= user.id %>"><%= user.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div>
+                    <label for="returnBookId">Book</label>
+                    <select id="returnBookId" name="bookId" required>
+                        <option value="">Select a book</option>
+                        <% books.forEach((book) => { %>
+                            <option value="<%= book.id %>"><%= book.title %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <button type="submit">Return</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Books</h2>
+            <% if (books.length === 0) { %>
+                <p>No books found.</p>
+            <% } else { %>
+                <ul>
+                    <% books.forEach((book) => { %>
+                        <li>#<%= book.id %> - <%= book.title %> by <%= book.author %></li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </section>
+
+        <section>
+            <h2>Users</h2>
+            <% if (users.length === 0) { %>
+                <p>No users found.</p>
+            <% } else { %>
+                <ul>
+                    <% users.forEach((user) => { %>
+                        <li>#<%= user.id %> - <%= user.name %> (<%= user.email %>)</li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>
